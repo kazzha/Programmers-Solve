@@ -1,18 +1,26 @@
+#include <iostream>
+#include <stdio.h>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
-string solution(string s) {
-    string answer = "";
-    if (s.size() % 2 != 0)
+int solution(vector<int> d, int budget) {
+    int answer = 0;
+    int checking = budget;
+    sort(d.begin(), d.end());
+
+    for (int i = 0; i < d.size(); i++)
     {
-        answer.push_back(s[s.size / 2]);
+        if (budget - d[i] >= 0)
+        {
+            answer++;
+            budget -= d[i];
+        }
+        else { break; }
+
     }
-    else
-    {
-        answer.push_back(s[(s.size / 2) - 1]);
-        answer.push_back(s[(s.size / 2)]);
-    }
+
     return answer;
 }
