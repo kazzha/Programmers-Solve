@@ -30,3 +30,40 @@ int solution(int num) {
     }
     return answer;
 }
+
+// p문자열보다 작은 t의 부분문자열 개수
+int solution(string t, string p) {
+    int answer = 0;
+    string temp;
+    int Psize = p.size();
+    bool checking;
+    vector<string> Tvec;
+
+    for (int i = 0; i <= t.size() - p.size(); i++)
+    {
+        temp = t.substr(i, p.size());
+        checking = true;
+        for (int j = 0; j < Psize; j++)
+        {
+            if (temp[j] == p[j])
+            {
+            }
+            else if (temp[j] < p[j])
+            {
+                break;
+            }
+            else if (temp[j] > p[j])
+            {
+                checking = false;
+                break;
+            }
+        }
+        if (checking)
+        {
+            answer++;
+        }
+    }
+
+
+    return answer;
+}

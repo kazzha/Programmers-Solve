@@ -1,45 +1,43 @@
 #include <iostream>
-#include <stdio.h>
-#include <string>
-#include <vector>
-#include <algorithm>
-
-using namespace std;
-
 #include <string>
 #include <vector>
 
 using namespace std;
 
-string solution(string s) {
-    string answer = "";
-    int index{};
+    int solution(string t, string p) {
+        int answer = 0;
+        string temp;
+        int Psize = p.size();
+        bool checking;
+        vector<string> Tvec;
 
-    for (int i = 0; i < s.size(); i++)
-    {
-        if (s[i] == ' ')
+        for (int i = 0; i <= t.size() - p.size(); i++)
         {
-            answer.push_back(s[i]);
-            index = 0;
-        }
-        else if (index % 2 == 0)
-        {
-            answer.push_back(s[i] - 32);
-            index++;
-        }
-        else if (index % 2 == 1)
-        {
-            answer.push_back(s[i]);
-            index++;
+            temp = t.substr(i, p.size());
+            checking = true;
+            for (int j = 0; j < Psize; j++)
+            {
+                if (temp[j] <= p[j])
+                {
+                }
+                else if (temp[j] > p[j])
+                {
+                    checking = false;
+                    break;
+                }
+            }
+            if (checking)
+            {
+                answer++;
+            }
         }
 
-    }
-    return answer;
+
+        return answer;
+    
 }
 
 int main()
 {
-    string cec{ "aaa " };
-
-    cout << solution(cec);
+    cout << solution("3141592", "271");
 }
