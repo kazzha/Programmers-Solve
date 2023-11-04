@@ -6,21 +6,40 @@
 
 using namespace std;
 
-int solution(vector<int> d, int budget) {
-    int answer = 0;
-    int checking = budget;
-    sort(d.begin(), d.end());
+#include <string>
+#include <vector>
 
-    for (int i = 0; i < d.size(); i++)
+using namespace std;
+
+string solution(string s) {
+    string answer = "";
+    int index{};
+
+    for (int i = 0; i < s.size(); i++)
     {
-        if (budget - d[i] >= 0)
+        if (s[i] == ' ')
         {
-            answer++;
-            budget -= d[i];
+            answer.push_back(s[i]);
+            index = 0;
         }
-        else { break; }
+        else if (index % 2 == 0)
+        {
+            answer.push_back(s[i] - 32);
+            index++;
+        }
+        else if (index % 2 == 1)
+        {
+            answer.push_back(s[i]);
+            index++;
+        }
 
     }
-
     return answer;
+}
+
+int main()
+{
+    string cec{ "aaa " };
+
+    cout << solution(cec);
 }
