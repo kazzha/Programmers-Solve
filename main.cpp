@@ -4,40 +4,16 @@
 
 using namespace std;
 
-    int solution(string t, string p) {
-        int answer = 0;
-        string temp;
-        int Psize = p.size();
-        bool checking;
-        vector<string> Tvec;
-
-        for (int i = 0; i <= t.size() - p.size(); i++)
-        {
-            temp = t.substr(i, p.size());
-            checking = true;
-            for (int j = 0; j < Psize; j++)
-            {
-                if (temp[j] <= p[j])
-                {
-                }
-                else if (temp[j] > p[j])
-                {
-                    checking = false;
-                    break;
-                }
-            }
-            if (checking)
-            {
-                answer++;
-            }
-        }
-
-
-        return answer;
-    
+string solution(vector<string> seoul) {
+    string answer = "";
+    int i{};
+    i = distance(seoul.begin(), find(seoul.begin(), seoul.end(), "Kim"));
+    answer = "김서방은 " + to_string(i) + "에 있다";
+    return answer;
 }
 
 int main()
 {
-    cout << solution("3141592", "271");
+    vector<string> seoul{ "se","Kim" };
+    cout << solution(seoul);
 }
