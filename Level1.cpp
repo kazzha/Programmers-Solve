@@ -67,3 +67,20 @@ int solution(string t, string p) {
 
     return answer;
 }
+
+// 정규 표현식
+
+#include <regex> // GCC에서는 <bits/stdc++.h>
+#include <map>
+using namespace std;
+
+int solution(string s) {
+    map<string, string> nums = { {"zero","0"},{"one","1"},{"two","2"},{"three","3"},
+                          {"four","4"},{"five","5"},{"six","6"},{"seven","7"},
+                          {"eight","8"},{"nine","9"} };
+
+    for (auto it : nums)
+        s = regex_replace(s, regex(it.first), it.second);
+
+    return stoi(s);
+}
