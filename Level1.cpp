@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
@@ -83,4 +84,26 @@ int solution(string s) {
         s = regex_replace(s, regex(it.first), it.second);
 
     return stoi(s);
+}
+
+
+// 글자 찾기 - 기출
+vector<int> solution1(string s) {
+    vector<int> answer(s.size());
+    unordered_map<char, int> container;
+    for (int i = 0; i < s.size(); i++)
+    {
+        if (!container.count(s[i]))
+        {
+            container[s[i]] = i;
+            answer[i] = -1;
+        }
+        else
+        {
+            answer[i] = i - container[s[i]];
+            container[s[i]] = i;
+        }
+    }
+
+    return answer;
 }
