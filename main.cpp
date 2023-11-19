@@ -1,26 +1,32 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <utility>
+
 
 using namespace std;
 
-vector<string> solution(vector<string> strings, int n) {
-    sort(strings.begin(), strings.end(), [n](const string& a, const string& b)->bool
-        {if (a[n] < b[n]) { return true; }
-        else if (a[n] > b[n]) { return false; }
-        else if (a[n] == b[n])
+bool cmp(string a, string b, int num)
+{
+    if (a[num] == b[num])
     {
-        for (int i = 0; i < a.size(); i++)
-        {
-            if (a[i] > b[i])
-            {
-                return false;
-            }
-        }
+        return a < b;
+    }
+    else if (a[num] > b[num])
+    {
+        return false;
+    }
+    else if (a[num] < b[num])
+    {
         return true;
     }
     return true;
+}
+
+vector<string> solution(vector<string> strings, int n) {
+    int num = n;
+    sort(strings.begin(), strings.end(), [num](const string& a, const string& b)->bool
+        {
+            return cmp(a, b, num);
         });
 
         vector<string> answer = strings;
