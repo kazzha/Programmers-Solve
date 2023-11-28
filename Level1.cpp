@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <sstream>
 
 using namespace std;
 
@@ -134,6 +135,45 @@ vector<string> solution(vector<string> strings, int n) {
         });
 
     vector<string> answer = strings;
+
+    return answer;
+}
+
+// 비트연산으로 최적화 가능
+vector<string> solution(int n, vector<int> arr1, vector<int> arr2) {
+    vector<string> answer;
+    vector<int> arr1_sub;
+    vector<int> arr2_sub;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            arr1_sub.push_back(arr1[i] % 2);
+            arr2_sub.push_back(arr2[i] % 2);
+            arr1[i] /= 2;
+            arr2[i] /= 2;
+        }
+    }
+
+
+
+    for (int i = 0; i < n; i++)
+    {
+        ostringstream oss;
+        for (int j = n - 1; j >= 0; j--)
+        {
+            if (arr1_sub[i * n + j] == 1 || arr2_sub[i * n + j] == 1)
+            {
+                oss << '#';
+            }
+            else
+            {
+                oss << ' ';
+            }
+        }
+        answer.push_back(oss.str());
+    }
+
 
     return answer;
 }

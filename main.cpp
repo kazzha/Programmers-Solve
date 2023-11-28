@@ -1,35 +1,23 @@
 #include <string>
 #include <vector>
-#include <algorithm>
-
+#include <map>
 
 using namespace std;
 
-bool cmp(string a, string b, int num)
-{
-    if (a[num] == b[num])
+vector<int> solution(vector<int> numbers) {
+    vector<int> answer;
+    map<int, bool> cont;
+    for (int i = 0; i < numbers.size()-1; i++)
     {
-        return a < b;
-    }
-    else if (a[num] > b[num])
-    {
-        return false;
-    }
-    else if (a[num] < b[num])
-    {
-        return true;
-    }
-    return true;
-}
-
-vector<string> solution(vector<string> strings, int n) {
-    int num = n;
-    sort(strings.begin(), strings.end(), [num](const string& a, const string& b)->bool
+        for (int j = i + 1; j < numbers.size(); j++)
         {
-            return cmp(a, b, num);
-        });
-
-        vector<string> answer = strings;
-
-        return answer;
+            cont.insert(make_pair(numbers[i] + numbers[j], true));
+        }
+    }
+    
+    for (const auto& pair : cont)
+    {
+        answer.push_back(pair.first);
+    }
+    return answer;
 }
