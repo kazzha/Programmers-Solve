@@ -1,23 +1,28 @@
 #include <string>
 #include <vector>
-#include <map>
+#include <deque>
+#include <algorithm>
 
 using namespace std;
 
-vector<int> solution(vector<int> numbers) {
-    vector<int> answer;
-    map<int, bool> cont;
-    for (int i = 0; i < numbers.size()-1; i++)
-    {
-        for (int j = i + 1; j < numbers.size(); j++)
-        {
-            cont.insert(make_pair(numbers[i] + numbers[j], true));
-        }
-    }
+int solution(int k, int m, vector<int> score) {
+    int answer = 0;
+    int num{};
     
-    for (const auto& pair : cont)
+    sort(score.begin(), score.end());
+
+    while (num <= score.size() - 1)
     {
-        answer.push_back(pair.first);
+        if (num == 1)
+        {
+            num += m - 1;
+        }
+        else
+        {
+            num += m;
+        }
+        answer += (score[num] * m);
     }
+
     return answer;
 }
