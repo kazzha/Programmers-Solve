@@ -1,60 +1,64 @@
 #include <string>
 #include <vector>
+#include <map>
+#include <algorithm>
 
 using namespace std;
 
-vector<int> solution(vector<int> answers) {
+vector<int> solution(int N, vector<int> stages) {
     vector<int> answer;
-    int count1{}, count2{}, count3{};
-    int index1{}, index2{}, index3{};
-    vector<int> supoza1{ 1,2,3,4,5 };
-    vector<int> supoza2{ 2,1,2,3,2,4,2,5 };
-    vector<int> supoza3{ 3,3,1,1,2,2,4,4,5,5 };
+    vector<int> aproc(N);
+    vector<pair<float, int>> fail(N);
 
-    for (int i = 0; i < answers.size(); i++)
+    for (int i = 0; i < N; i++)
     {
-        if (supoza1[index1] == answers[i])
-        {
-            count1++;
-        }
-        if (supoza2[index2] == answers[i])
-        {
-            count2++;
-        }
-        if (supoza3[index3] == answers[i])
-        {
-            count3++;
-        }
-        index1++;
-        index2++;
-        index3++;
-        if (index1 > 4)
-        {
-            index1 = 0;
-        }
-        if (index2 > 7)
-        {
-            index2 = 0;
-        }
-        if (index3 > 9)
-        {
-            index3 = 0;
-        }
-        
+        fail[i].second = i+1;
     }
-    int maxnum = max(count1, count2); maxnum = max(maxnum, count3);
 
-    if (maxnum == count1)
+    for (int i = 0; i < stages.size(); i++)
     {
-        answer.push_back(1);
+        if (stages[i] == N + 1)
+        {
+            for (int j = 0; j < N; j++)
+            {
+                aproc[j]++;
+            }
+        }
+        else {
+            for (int j = 0; j < stages[i]; j++)
+            {
+                aproc[j]++;
+                if (j == (stages[i] - 1))
+                {
+                    fail[j].first += 1.0;
+                }
+            }
+        }
     }
-    if (maxnum == count2)
+
+    for (int k = 0; k < N; k++)
     {
-        answer.push_back(2);
+        fail[k].first = fail[k].first / aproc[k];
     }
-    if (maxnum == count3)
+
+    sort(fail.begin(), fail.end(), [](const auto& a, const auto& b) {
+        if (a.first == b.first)
+        {
+            return a.second < b.second;
+        }
+        else
+            return a.first > b.first;
+        });
+
+    for (int k = 0; k < N; k++)
     {
-        answer.push_back(3);
+        answer.push_back(fail[k].second);
     }
+
     return answer;
+}
+
+int main()
+{
+    solution(5, vector<int>{2, 1, 2, 6, 2, 4, 3, 3});
 }
