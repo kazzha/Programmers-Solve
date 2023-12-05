@@ -1,55 +1,45 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <algorithm>
 
 using namespace std;
 
-int solution(vector<string> babbling) {
-    int answer = 0;
-    int index{};
-    string prev;
-    bool fail = true;
-    vector<string> str{ "aya", "ye", "woo", "ma" };
-
-    for (int i = 0; i < babbling.size(); i++)
+string solution(vector<string> participant, vector<string> completion) {
+    string answer = "";
+    map<string, bool> member;
+    for (int i = 0; i < participant.size(); ++i)
     {
-        fail = true;
-
-        while (fail && index < babbling[i].size())
-        {
-            fail = false;
-            for (auto e : str)
-            {
-                auto found = babbling[i].find(e, index);
-                if (found != std::string::npos)
-                {
-                    if ((int)found == index  && prev != e){
-                    prev = e;
-                    fail = true;
-                    
-                    index += e.size();
-                    if (index >= babbling[i].size())
-                    {
-                        answer++;
-                        break;
-                    }
-                }
-                else { 
-                }
-                }
-                
-            }
-            
-        }
-        index = 0;
-        prev = "";
+        member[participant[i]] = true;
     }
+
+    for (int i = 0; i < completion.size(); ++i)
+    {
+        auto found = member.find(completion[i]);
+
+        if (found != member.end())
+        {
+            if (member[completion[i]])
+            {
+                member[completion[i]] = false;
+            }
+            else
+            {
+                answer = completion[i];
+                break;
+            }
+        }
+        else
+        {
+            answer = completion[i];
+            break;
+        }
+    }
+
 
     return answer;
 }
 
 int main()
 {
-    solution({ "ayaye", "uuu", "yeye", "yemawoo", "ayaayaa" });
+    solution({ "leo", "kiki", "eden" }, { "eden", "kiki" });
 }
