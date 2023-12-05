@@ -5,54 +5,45 @@
 
 using namespace std;
 
-vector<int> solution(int N, vector<int> stages) {
-    vector<int> answer;
-    vector<int> aproc(N);
-    vector<pair<float, int>> fail(N);
+int solution(vector<string> babbling) {
+    int answer = 0;
+    int index{};
+    string prev;
+    bool fail = true;
+    vector<string> str{ "aya", "ye", "woo", "ma" };
 
-    for (int i = 0; i < N; i++)
+    for (int i = 0; i < babbling.size(); i++)
     {
-        fail[i].second = i+1;
-    }
+        fail = true;
 
-    for (int i = 0; i < stages.size(); i++)
-    {
-        if (stages[i] == N + 1)
+        while (fail && index < babbling[i].size())
         {
-            for (int j = 0; j < N; j++)
+            fail = false;
+            for (auto e : str)
             {
-                aproc[j]++;
-            }
-        }
-        else {
-            for (int j = 0; j < stages[i]; j++)
-            {
-                aproc[j]++;
-                if (j == (stages[i] - 1))
+                auto found = babbling[i].find(e, index);
+                if (found != std::string::npos)
                 {
-                    fail[j].first += 1.0;
+                    if ((int)found == index  && prev != e){
+                    prev = e;
+                    fail = true;
+                    
+                    index += e.size();
+                    if (index >= babbling[i].size())
+                    {
+                        answer++;
+                        break;
+                    }
                 }
+                else { 
+                }
+                }
+                
             }
+            
         }
-    }
-
-    for (int k = 0; k < N; k++)
-    {
-        fail[k].first = fail[k].first / aproc[k];
-    }
-
-    sort(fail.begin(), fail.end(), [](const auto& a, const auto& b) {
-        if (a.first == b.first)
-        {
-            return a.second < b.second;
-        }
-        else
-            return a.first > b.first;
-        });
-
-    for (int k = 0; k < N; k++)
-    {
-        answer.push_back(fail[k].second);
+        index = 0;
+        prev = "";
     }
 
     return answer;
@@ -60,5 +51,5 @@ vector<int> solution(int N, vector<int> stages) {
 
 int main()
 {
-    solution(5, vector<int>{2, 1, 2, 6, 2, 4, 3, 3});
+    solution({ "ayaye", "uuu", "yeye", "yemawoo", "ayaayaa" });
 }
