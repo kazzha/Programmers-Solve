@@ -1,45 +1,39 @@
 #include <string>
 #include <vector>
-#include <map>
+#include <sstream>
 
 using namespace std;
 
-string solution(vector<string> participant, vector<string> completion) {
+string solution(string s) {
     string answer = "";
-    map<string, bool> member;
-    for (int i = 0; i < participant.size(); ++i)
-    {
-        member[participant[i]] = true;
-    }
+    bool prev = true;
 
-    for (int i = 0; i < completion.size(); ++i)
+    for (int i = 0; i < s.size(); ++i)
     {
-        auto found = member.find(completion[i]);
-
-        if (found != member.end())
+        if (isspace(s[i]))
         {
-            if (member[completion[i]])
-            {
-                member[completion[i]] = false;
-            }
-            else
-            {
-                answer = completion[i];
-                break;
-            }
+            prev = true;
         }
         else
         {
-            answer = completion[i];
-            break;
+            if (prev && !isupper(s[i]))
+            {
+                s[i] = toupper(s[i]);
+                prev = false;
+            }
+            else if (!prev && !islower(s[i]))
+            {
+                s[i] = tolower(s[i]);
+            }
         }
     }
 
-
+    answer = s;
+    
     return answer;
 }
 
 int main()
 {
-    solution({ "leo", "kiki", "eden" }, { "eden", "kiki" });
+    solution("  sldfk 3d");
 }
