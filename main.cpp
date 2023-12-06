@@ -1,39 +1,75 @@
 #include <string>
 #include <vector>
-#include <sstream>
+#include <bitset>
 
 using namespace std;
 
-string solution(string s) {
-    string answer = "";
-    bool prev = true;
-
-    for (int i = 0; i < s.size(); ++i)
+vector<int> solution(string s) {
+    vector<int> answer(2);
+    int num{};
+    int index{};
+    int one{};
+    bool flag = false;
+   
+    
+    for (int i = 0; i < s.size(); i++)
     {
-        if (isspace(s[i]))
+        if (s[i] == 49)
         {
-            prev = true;
-        }
-        else
-        {
-            if (prev && !isupper(s[i]))
-            {
-                s[i] = toupper(s[i]);
-                prev = false;
-            }
-            else if (!prev && !islower(s[i]))
-            {
-                s[i] = tolower(s[i]);
-            }
+            index = i;
+            answer[1] += i;
+            break;
         }
     }
 
-    answer = s;
+    long long sll = stoll(s.substr(index));
+
+    while (sll != 1)
+    {
+        if (sll % 10 == 0)
+        {
+            answer[1]++;
+        }
+        else
+        {
+            one++;
+        }
+        sll /= 10;
+    }
+    answer[0]++;
+    one++;
+
+
+   while (one != 1)
+    {
+        bitset<sizeof(one) * 8> binaryNum(one);
+
+        one = 0;
+
+        for (int i = 0; i < binaryNum.size(); i++)
+        {
+            if (binaryNum[i])
+            {
+                flag = true;
+            }
+            if (flag && binaryNum[i] == 0)
+            {
+                answer[1]++;
+            }
+            else if(flag && binaryNum[i] == 1)
+            {
+                one++;
+            }
+        }
+        flag = false;
+        answer[0]++;
+    }
     
+ 
     return answer;
 }
 
 int main()
 {
-    solution("  sldfk 3d");
+    solution("01110");
 }
