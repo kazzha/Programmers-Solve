@@ -1,75 +1,53 @@
-#include <string>
+#include <iostream>
+#include<string>
 #include <vector>
-#include <bitset>
-
 using namespace std;
 
-vector<int> solution(string s) {
-    vector<int> answer(2);
-    int num{};
-    int index{};
-    int one{};
-    bool flag = false;
-   
-    
-    for (int i = 0; i < s.size(); i++)
-    {
-        if (s[i] == 49)
-        {
-            index = i;
-            answer[1] += i;
-            break;
-        }
-    }
-
-    long long sll = stoll(s.substr(index));
-
-    while (sll != 1)
-    {
-        if (sll % 10 == 0)
-        {
-            answer[1]++;
-        }
-        else
-        {
-            one++;
-        }
-        sll /= 10;
-    }
-    answer[0]++;
-    one++;
-
-
-   while (one != 1)
-    {
-        bitset<sizeof(one) * 8> binaryNum(one);
-
-        one = 0;
-
-        for (int i = 0; i < binaryNum.size(); i++)
-        {
-            if (binaryNum[i])
-            {
-                flag = true;
-            }
-            if (flag && binaryNum[i] == 0)
-            {
-                answer[1]++;
-            }
-            else if(flag && binaryNum[i] == 1)
-            {
-                one++;
-            }
-        }
-        flag = false;
-        answer[0]++;
-    }
-    
- 
-    return answer;
-}
-
-int main()
+int solution(string s)
 {
-    solution("01110");
+    int answer = -1;
+    char prev{};
+    int sizeS=s.size(), index{};
+    bool checking = true;
+    vector<bool> stringS(s.size(), true);
+
+    while (checking && sizeS > 1) {
+        checking = false;
+        for (int i = 0; i < s.size(); i++)
+        {
+            if (prev == s[i])
+            {
+                stringS[i] = stringS[i - 1] = false;
+                checking = true;
+                index = i;
+                sizeS -= 2;
+                while (index > 1)
+                {
+                    index -= 2;
+                    if (stringS[index])
+                    {
+                        prev = s[index];
+                    }
+                    else
+                    {
+                        prev = {};
+                    }
+                }
+            }
+            if (stringS[i])
+            {
+                prev = s[i];
+            }
+        }
+    }
+
+    if (sizeS > 0)
+    {
+        answer++;
+    }
+    else
+    {
+        answer += 2;
+    }
+    return answer;
 }
