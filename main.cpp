@@ -1,53 +1,21 @@
-#include <iostream>
-#include<string>
+#include <string>
 #include <vector>
+#include <algorithm>
+
 using namespace std;
 
-int solution(string s)
-{
-    int answer = -1;
-    char prev{};
-    int sizeS=s.size(), index{};
-    bool checking = true;
-    vector<bool> stringS(s.size(), true);
-
-    while (checking && sizeS > 1) {
-        checking = false;
-        for (int i = 0; i < s.size(); i++)
-        {
-            if (prev == s[i])
-            {
-                stringS[i] = stringS[i - 1] = false;
-                checking = true;
-                index = i;
-                sizeS -= 2;
-                while (index > 1)
-                {
-                    index -= 2;
-                    if (stringS[index])
-                    {
-                        prev = s[index];
-                    }
-                    else
-                    {
-                        prev = {};
-                    }
-                }
-            }
-            if (stringS[i])
-            {
-                prev = s[i];
-            }
-        }
-    }
-
-    if (sizeS > 0)
+// 그리디 알고리즘
+int solution(vector<int> people, int limit) {
+    int answer = 0;
+    sort(people.begin(), people.end());
+    int idx = 0;
+    while (people.size() > idx)
     {
-        answer++;
+        int back = people.back(); people.pop_back();
+        // 큰 수부터 넣고, 만약 가장 작은 kg과 합했을때 limit를 넘지 않으면 같이 보트에 태움
+        if (people[idx] + back <= limit) { answer++; idx++; }
+        else answer++;
     }
-    else
-    {
-        answer += 2;
-    }
+    
     return answer;
 }
