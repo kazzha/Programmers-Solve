@@ -1,21 +1,40 @@
-#include <string>
-#include <vector>
 #include <algorithm>
+#include <vector>
+#include <iostream>
+#include <set>
 
 using namespace std;
 
-// 그리디 알고리즘
-int solution(vector<int> people, int limit) {
-    int answer = 0;
-    sort(people.begin(), people.end());
-    int idx = 0;
-    while (people.size() > idx)
+int main()
+{
+    int n{}, x{}, answer{};
+    cin >> n;
+    vector<int> count(n);
+    for (int i = 0; i < n; i++)
     {
-        int back = people.back(); people.pop_back();
-        // 큰 수부터 넣고, 만약 가장 작은 kg과 합했을때 limit를 넘지 않으면 같이 보트에 태움
-        if (people[idx] + back <= limit) { answer++; idx++; }
-        else answer++;
+        cin >> count[i];
     }
-    
-    return answer;
+    cin >> x;
+
+    int start{}, end{1};
+
+    sort(count.begin(), count.end());
+
+    while (start < n-1)
+    {
+        end = start + 1;
+        while (end < n) {
+            if (count[start] + count[end] < x)
+                end++;
+            else if (count[start] + count[end] == x)
+            {
+                answer++;
+                break;
+            }
+            else { break; }
+        }
+        start++;
+    }
+
+    cout << answer;
 }

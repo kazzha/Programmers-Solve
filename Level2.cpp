@@ -2,6 +2,8 @@
 #include <vector>
 #include <bitset>
 #include <algorithm>
+#include <set>
+#include <iostream>
 
 using namespace std;
 
@@ -43,6 +45,49 @@ int solution(vector<int> people, int limit) {
         // 큰 수부터 넣고, 만약 가장 작은 kg과 합했을때 limit를 넘지 않으면 같이 보트에 태움
         if (people[idx] + back <= limit) { answer++; idx++; }
         else answer++;
+    }
+
+    return answer;
+}
+
+// 원형 수열 부분 합 (투포인터)
+int solution(vector<int> elements) {
+    int answer = 0;
+    set<int> s;
+    int sizeV = elements.size();
+    int count{}, end{};
+
+    for (int start = 0; start < sizeV; ++start)
+    {
+        int sum = elements[start];
+        s.insert(sum);
+        count = 1;
+        end = start;
+        while (count < sizeV)
+        {
+            count++; end++;
+            sum += elements[end % sizeV];
+            s.insert(sum);
+        }
+    }
+    answer = s.size();
+    return answer;
+}
+
+// 1차원 배열 채우기 -> 2차원 배열 채우기
+vector<int> solution(int n, long long left, long long right) {
+    vector<int> answer;
+
+    for (long long i = left; i <= right; i++)
+    {
+        if (i / n >= i % n)
+        {
+            answer.push_back(i / n + 1);
+        }
+        else
+        {
+            answer.push_back(i % n + 1);
+        }
     }
 
     return answer;
